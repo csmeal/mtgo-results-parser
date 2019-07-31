@@ -13,7 +13,7 @@ def get_all(start_year, start_month, start_day, end_year, end_month, end_day):
                 res.append(year, month, day)
 
 
-def get_all_for_date(year, month, day):
+def get_all_for_date(year: int, month: int, day: int)->list:
     result = []
     year = year if len(str(year)) == 4 else '20' + str(year)
     month = month if len(str(month)) == 2 else '0' + str(month)
