@@ -13,7 +13,7 @@ def get_all(start_year, start_month, start_day, end_year, end_month, end_day):
                 res.append(year, month, day)
 
 
-def get_all_for_date(year: int, month: int, day: int)->list:
+def get_all_urls_for_date(year: int, month: int, day: int)->list:
     result = []
     year = year if len(str(year)) == 4 else '20' + str(year)
     month = month if len(str(month)) == 2 else '0' + str(month)
@@ -32,3 +32,28 @@ def get_all_for_date(year: int, month: int, day: int)->list:
                 })
 
     return result
+
+def get_card_count_from_url(url):
+    results = []
+    count_string = '<span class="card-count">'
+    card_string = 'class="deck-list-link">'
+
+    card_dictionary = {}
+    req = requests.get(url)
+    start = req.text.find(count_string)
+
+    while start > 0:
+        card_count = req.text[start +
+                            len(count_string):start + len(count_string) + 1]
+        start = req.text.find(card_string, start)
+        end = req.text.find('<', start)
+        card_name = req.text[start + len(card_string):end]
+        if card_name not in card_dictionary:
+            card_dictionary[card_name] = int(card_count)
+        else:
+            card_dictionary[card_name] += int(card_count)
+        start = req.text.find(count_string, start + 1)
+
+    # for result in card_dictionary.keys():
+    #     print(result + ':' + str(card_dictionary[result]))
+    return card_dictionary
