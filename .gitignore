@@ -103,3 +103,6 @@ mtgenv/
 
 # mypy
 .mypy_cache/
+
+# ide specific
+.vscode
